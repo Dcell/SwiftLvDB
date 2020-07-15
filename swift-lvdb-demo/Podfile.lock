@@ -1,0 +1,23 @@
+PODS:
+  - leveldb-library (1.22)
+  - SwiftLvDB (1.0.0):
+    - leveldb-library
+
+DEPENDENCIES:
+  - SwiftLvDB (from `..`)
+
+SPEC REPOS:
+  trunk:
+    - leveldb-library
+
+EXTERNAL SOURCES:
+  SwiftLvDB:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  SwiftLvDB: 289ab997aba8a93b2df114d4de4de2e4283c3a73
+
+PODFILE CHECKSUM: f0ef9f8e99c6c82477800e75119ea6440e4685e5
+
+COCOAPODS: 1.9.3

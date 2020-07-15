@@ -1,0 +1,16 @@
+platform :ios, '8.0'
+use_frameworks!
+
+target "swift-lvdb-demo" do
+    pod 'SwiftLvDB', :path => ".."
+end
+
+target "swift-lvdb-demoTests" do
+    pod 'SwiftLvDB', :path => ".."
+end
+
+#target "IDHCacheDemoTestsForOc" do
+#    pod 'IDHCache', :path => ".."
+#    pod 'YYCache'
+#end
+
