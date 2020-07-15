@@ -18,8 +18,8 @@ jobs:
     - name: Goin Demo
       run: cd ./swift-lvdb-demo
     - name: Pod install
-      run: pod install --verbose
+      run: pwd
     - name: Build
-      run: ls -v
+      run: ls -l
     - name: Run tests
-      run: ls -v
+      run: ls -l
