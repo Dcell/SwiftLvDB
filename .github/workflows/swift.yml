@@ -16,6 +16,6 @@ jobs:
     - name: Dump file hierarchy
       run: ls -l
     - name: Build
-      run: ls -v
+      run: pod --version
     - name: Run tests
       run: ls -v
