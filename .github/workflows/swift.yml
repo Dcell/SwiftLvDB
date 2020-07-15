@@ -1,10 +1,10 @@
-name: Swift
+name: CI
 
 on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: -*
 
 jobs:
   build:
@@ -13,7 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Dump file hierarchy
+      run: ls -l
     - name: Build
-      run: swift build -v
+#       run: swift build -v
     - name: Run tests
-      run: swift test -v
+#       run: swift test -v
