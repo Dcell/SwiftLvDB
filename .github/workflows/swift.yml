@@ -20,6 +20,6 @@ jobs:
     - name: Pod install
       run: cd ./swift-lvdb-demo && pod install --verbose
     - name: Build
-      run: xcodebuild build -destination 'platform=iOS Simulator,name=iPhone 8s,OS=13.5' -project swift-lvdb-demo/swift-lvdb-demo.xcworkspace -configuration Debug -scheme swift-lvdb-demo
+      run: xcodebuild build -destination 'platform=iOS Simulator,name=iPhone 8s,OS=13.5' -workspace swift-lvdb-demo/swift-lvdb-demo.xcworkspace -configuration Debug -scheme swift-lvdb-demo
     - name: Run tests
       run: ls -l
