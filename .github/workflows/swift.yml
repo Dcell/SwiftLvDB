@@ -16,6 +16,6 @@ jobs:
     - name: Dump file hierarchy
       run: ls -l
     - name: Build
-      run: pod --version
+      run: cd ./swift-lvdb-demo \n pod install --verbose
     - name: Run tests
       run: ls -v
