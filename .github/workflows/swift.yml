@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: -*
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Dump file hierarchy
+      run: ls -l
+    - name: Build
+      run: ls -v
+    - name: Run tests
+      run: ls -v
