@@ -10,16 +10,16 @@ jobs:
   build:
 
     runs-on: macos-latest
+    env: 
+      DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
 
     steps:
     - uses: actions/checkout@v2
     - name: Dump file hierarchy
       run: ls -l
-    - name: Goin Demo
-      run: cd ./swift-lvdb-demo
     - name: Pod install
-      run: pwd
+      run: cd ./swift-lvdb-demo && pod install --verbose
     - name: Build
-      run: ls -l
+      run: xcodebuild build -destination 'platform=iOS Simulator,name=iPhone 8s,OS=13.5' -project swift-lvdb-demo/swift-lvdb-demo.xcworkspace -configuration Debug -scheme swift-lvdb-demo
     - name: Run tests
       run: ls -l
