@@ -15,7 +15,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Dump file hierarchy
       run: ls -l
+    - name: Goin Demo
+      run: cd ./swift-lvdb-demo
+    - name: Pod install
+      run: pod install --verbose
     - name: Build
-      run: cd ./swift-lvdb-demo \n pod install --verbose
+      run: ls -v
     - name: Run tests
       run: ls -v
