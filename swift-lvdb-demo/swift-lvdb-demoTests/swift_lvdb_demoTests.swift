@@ -60,7 +60,7 @@ class swift_lvdb_demoTests: XCTestCase {
     
     func testSaveString() throws{
         let testValue:String = "hello"
-        let testKey = "testSaveBool"
+        let testKey = "testSaveString"
         SwiftLvDB.sharedInstance.set(testValue, forKey: testKey)
         XCTAssertFalse(testValue != SwiftLvDB.sharedInstance.string(forKey: testKey))
     }
