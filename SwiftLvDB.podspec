@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "SwiftLvDB"
-  s.version      = "1.0.0"
+  s.version      = "2.0.0"
   s.summary      = "A fast key-value storage library , leveldb for swift"
   s.description  = <<-DESC
                    To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/SwiftLvDB
