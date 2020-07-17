@@ -29,5 +29,5 @@ typedef id _Nullable (^decode_block_t)(NSData *_Nonnull);
 - (NSArray<id>*_Nonnull)allObjectValues:(decode_block_t _Nonnull )byDecode;
 - (NSArray<NSString *>*_Nonnull)allKeys;
 - (NSDictionary *_Nonnull)convertToDictionary:(decode_block_t _Nonnull )byDecode;
-
+- (BOOL)remove:(NSString *_Nonnull)key;
 @end

@@ -34,8 +34,18 @@ final public class SwiftLvDB: NSObject {
         self.init(subName: identifier)
     }
     
+    
+    /// close db
     public func close(){
         self.diskCache.close()
+    }
+    
+    
+    /// remove
+    /// - Parameter key: keyword
+    public func remove(_ key:String){
+        self.memoryCache.remove(key)
+        self.diskCache.removeObject(forKey: key)
     }
     
     

@@ -25,9 +25,11 @@ final class KeyValueDiskCache: NSObject {
 extension KeyValueDiskCache:DiskCacheProtocol{
     func close() {
         pthread_mutex_lock(&self.mutex)
+        defer {
+            pthread_mutex_unlock(&self.mutex)
+        }
         leveldb?.closeDb()
         leveldb = nil
-        pthread_mutex_unlock(&self.mutex)
     }
     
     func object(forKey defaultName: String) -> Any?{
@@ -56,7 +58,15 @@ extension KeyValueDiskCache:DiskCacheProtocol{
     
     //TODO
     func removeObject(forKey defaultName: String) {
-        
+        pthread_mutex_lock(&self.mutex)
+        defer {
+            pthread_mutex_unlock(&self.mutex)
+        }
+        guard let leveldb = self.leveldb else {
+            SwiftLvDB.printLog(log: "LevelDB init Error!!!!")
+            return
+        }
+        leveldb.remove(defaultName)
     }
     
     func string(forKey defaultName: String) -> String? {
@@ -68,7 +78,10 @@ extension KeyValueDiskCache:DiskCacheProtocol{
     
     func array(forKey defaultName: String) -> [Any]? {
         var array:[Any]? = nil
-         pthread_mutex_lock(&self.mutex)
+        pthread_mutex_lock(&self.mutex)
+        defer {
+            pthread_mutex_unlock(&self.mutex)
+        }
         let diskUrl = URL(fileURLWithPath: self.diskPath)
         let subDiskUrl = diskUrl.appendingPathComponent(defaultName, isDirectory: true)
         do {
@@ -82,13 +95,15 @@ extension KeyValueDiskCache:DiskCacheProtocol{
         } catch {
             SwiftLvDB.printLog(log: "\(error)")
         }
-        pthread_mutex_unlock(&self.mutex)
         return array
     }
     
     func dictionary(forKey defaultName: String) -> [String : Any]? {
         var dic:[String : Any]? = nil
         pthread_mutex_lock(&self.mutex)
+        defer {
+            pthread_mutex_unlock(&self.mutex)
+        }
         let diskUrl = URL(fileURLWithPath: self.diskPath)
         let subDiskUrl = diskUrl.appendingPathComponent(defaultName, isDirectory: true)
         do {
@@ -101,7 +116,6 @@ extension KeyValueDiskCache:DiskCacheProtocol{
         } catch {
             SwiftLvDB.printLog(log: "\(error)")
         }
-        pthread_mutex_unlock(&self.mutex)
         return dic
     }
     
@@ -112,8 +126,10 @@ extension KeyValueDiskCache:DiskCacheProtocol{
         }
         var data:Data?
         pthread_mutex_lock(&self.mutex)
+        defer {
+            pthread_mutex_unlock(&self.mutex)
+        }
         data = leveldb.data(forKey: defaultName)
-        pthread_mutex_unlock(&self.mutex)
         return data
     }
     
@@ -174,8 +190,10 @@ extension KeyValueDiskCache:DiskCacheProtocol{
             return
         }
         pthread_mutex_lock(&self.mutex)
+        defer {
+            pthread_mutex_unlock(&self.mutex)
+        }
         leveldb.setData(value, forKey: defaultName)
-        pthread_mutex_unlock(&self.mutex)
     }
     
     func set(_ value: [NSCoding], forKey defaultName: String) {

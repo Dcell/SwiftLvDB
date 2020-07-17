@@ -92,6 +92,14 @@ NS_INLINE leveldb::Slice SliceByString(NSString *string)
     return status.ok();
 }
 
+- (BOOL)remove:(NSString *)key{
+    leveldb::Slice sliceKey = SliceByString(key);
+    leveldb::Status status = db->Delete(writeOptions, sliceKey);
+    return status.ok();
+}
+
+
+
 - (NSArray<NSData *> *)allValues{
     leveldb::Iterator* it = db->NewIterator(leveldb::ReadOptions());
     NSMutableArray *array = [[NSMutableArray alloc] init];

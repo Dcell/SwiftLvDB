@@ -26,6 +26,11 @@ protocol MemoryCacheProtocol {
     /// - Parameter key: 关键字
     /// - Returns: Value
     func getValue(_ key:Key) ->Value?
+    
+    
+    /// 删除某个对象
+    /// - Parameter key:关键字
+    func remove(_ key:Key)
 }
 
 
@@ -45,6 +50,8 @@ final class LruMemoryCache: NSObject {
 }
 //mark LruMemoryCache extends MemoryCacheProtocol
 extension LruMemoryCache:MemoryCacheProtocol{
+
+    
     
     typealias Value = Any
     typealias Key = String
@@ -76,6 +83,15 @@ extension LruMemoryCache:MemoryCacheProtocol{
         }
         pthread_mutex_unlock(&self.mutex)
         return node?.payload.1
+    }
+    
+    func remove(_ key: String) {
+        pthread_mutex_lock(&self.mutex)
+        let node = self.nodesDict[key]
+        if let node = node{
+            self.linkedList.remove(node)
+        }
+        pthread_mutex_unlock(&self.mutex)
     }
 }
 
