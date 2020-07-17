@@ -65,10 +65,17 @@ NS_INLINE leveldb::Slice SliceByString(NSString *string)
     return self;
 }
 
+- (void)closeDb{
+    delete db;
+    db = NULL;
+}
 
 - (void)dealloc
 {
-    delete db;
+    if(db){
+        delete db;
+        db = NULL;
+    }
 }
 
 - (NSData *)dataForKey:(NSString *)key{

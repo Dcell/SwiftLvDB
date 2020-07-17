@@ -23,6 +23,12 @@ final class KeyValueDiskCache: NSObject {
 }
 
 extension KeyValueDiskCache:DiskCacheProtocol{
+    func close() {
+        pthread_mutex_lock(&self.mutex)
+        leveldb?.closeDb()
+        leveldb = nil
+        pthread_mutex_unlock(&self.mutex)
+    }
     
     func object(forKey defaultName: String) -> Any?{
         if let data = self.data(forKey: defaultName){

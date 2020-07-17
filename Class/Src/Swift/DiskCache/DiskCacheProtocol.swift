@@ -9,6 +9,8 @@ import UIKit
 
 protocol DiskCacheProtocol:NSObjectProtocol{
     
+    //close db
+    func close()
 //    init(path:String)
     /*!
      -objectForKey: will search the receiver's search list for a default with the key 'defaultName' and return it. If another process has changed defaults in the search list, NSUserDefaults will automatically update to the latest values. If the key in question has been marked as ubiquitous via a Defaults Configuration File, the latest value may not be immediately available, and the registered value will be returned instead.

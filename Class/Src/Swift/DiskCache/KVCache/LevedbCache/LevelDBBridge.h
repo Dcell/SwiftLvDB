@@ -21,6 +21,7 @@ typedef id _Nullable (^decode_block_t)(NSData *_Nonnull);
  @return leveldb 对象
  */
 - (instancetype _Nullable )initWithPath:(NSString *_Nonnull)path;
+- (void)closeDb;
 
 - (NSData * _Nullable)dataForKey:(NSString *_Nonnull)key;
 - (BOOL)setData:(NSData *_Nonnull)data forKey:(NSString *_Nonnull)key;

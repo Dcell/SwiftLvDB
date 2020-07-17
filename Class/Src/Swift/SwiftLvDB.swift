@@ -34,6 +34,10 @@ final public class SwiftLvDB: NSObject {
         self.init(subName: identifier)
     }
     
+    public func close(){
+        self.diskCache.close()
+    }
+    
     
     /// -stringForKey: is equivalent to -objectForKey:, except that it will convert NSNumber values to their NSString representation. If a non-string non-number value is found, nil will be returned.
     @objc public func string(forKey defaultName: String) -> String?{
