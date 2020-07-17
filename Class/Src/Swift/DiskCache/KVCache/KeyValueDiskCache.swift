@@ -23,11 +23,32 @@ final class KeyValueDiskCache: NSObject {
 }
 
 extension KeyValueDiskCache:DiskCacheProtocol{
-
-    func object(forKey defaultName: String) -> Any? {
+    
+    func object(forKey defaultName: String) -> Any?{
+        if let data = self.data(forKey: defaultName){
+            return NSKeyedUnarchiver.unarchiveObject(with: data)
+        }
+        return nil
+    }
+    func object<T>(_ type:T.Type,forKey defaultName: String) -> T? where T : Decodable {
+        guard let date = self.data(forKey: defaultName) else{
+            return nil
+        }
+        let jsonDecode = JSONDecoder()
+        if let codeableObject = try? jsonDecode.decode(type, from: date){
+           return codeableObject
+        }
         return nil
     }
     
+    func set<T:Codable>(_ value:T,forKey defaultName: String) throws{
+        let jsonencode =  JSONEncoder()
+        jsonencode.outputFormatting = .prettyPrinted
+        let data = try jsonencode.encode(value)
+        self.set(data, forKey: defaultName)
+    }
+    
+    //TODO
     func removeObject(forKey defaultName: String) {
         
     }
@@ -185,6 +206,8 @@ extension KeyValueDiskCache:DiskCacheProtocol{
             SwiftLvDB.printLog(log: "\(error)")
         }
     }
+    
+    
 
 }
 

@@ -9,15 +9,16 @@ import UIKit
 
 
 final public class SwiftLvDB: NSObject {
+    public static let defaultMaxMemoryCacheCount = 200
     @objc public static let sharedInstance = SwiftLvDB()
     let memoryCache:LruMemoryCache
     let diskCache:DiskCacheProtocol
-    init(path:String) {
+    init(path:String,_ maxMemoryCacheCount:Int = defaultMaxMemoryCacheCount) {
         SwiftLvDB.printLog(log: "init path:\(path)")
-        self.memoryCache = LruMemoryCache(maxCount: 200)
+        self.memoryCache = LruMemoryCache(maxCount: maxMemoryCacheCount)
         self.diskCache = KeyValueDiskCache(path: path)
     }
-    @objc public convenience init(subName:String) {
+    @objc public convenience init(subName:String,_ maxMemoryCacheCount:Int = SwiftLvDB.defaultMaxMemoryCacheCount) {
         //考虑到数据不能被系统清除，我们先缓存到文档文件，不缓存在Cache文件
         var diskPath = ""
         do {
@@ -26,7 +27,7 @@ final public class SwiftLvDB: NSObject {
             try FileManager.default.createDirectory(at: diskURL, withIntermediateDirectories: true, attributes: nil)
             diskPath = diskURL.path
         } catch {SwiftLvDB.printLog(log: "\(error)")}
-        self.init(path: diskPath)
+        self.init(path: diskPath,maxMemoryCacheCount)
     }
     private override convenience init() {
         let identifier = Bundle.main.bundleIdentifier ?? "SwiftLvDBDefault"
@@ -75,15 +76,13 @@ final public class SwiftLvDB: NSObject {
     /*!
      -objectForKey: will search the receiver's search list for a default with the key 'defaultName' and return it. If another process has changed defaults in the search list, NSUserDefaults will automatically update to the latest values. If the key in question has been marked as ubiquitous via a Defaults Configuration File, the latest value may not be immediately available, and the registered value will be returned instead.
      */
-    @objc public func object(forKey defaultName: String) -> Any?{
+    public func object(forKey defaultName: String) -> Any?{
         if let value = self.memoryCache.getValue(defaultName){
             return value
         }
-        if let data = self.diskCache.data(forKey: defaultName){
-            if let value = NSKeyedUnarchiver.unarchiveObject(with: data){
-                self.memoryCache.setValue(value, defaultName)
-                return value
-            }
+        if let value = self.diskCache.object(forKey: defaultName){
+            self.memoryCache.setValue(value, defaultName)
+            return value
         }
         return nil
     }
@@ -148,6 +147,19 @@ final public class SwiftLvDB: NSObject {
         return value
     }
     
+    public func codeableObject<T>(_ type:T.Type,forKey defaultName: String) -> T? where T:Codable{
+        if let value = self.memoryCache.getValue(defaultName) as? T{
+            return value
+        }
+        if let value =  self.diskCache.object(type, forKey: defaultName){
+            self.memoryCache.setValue(value, defaultName)
+            return value
+        }
+        return nil
+    }
+    
+    
+    
     /// -setData:forKey: is equivalent to -setObject:forKey: except that the value is converted from a Data
     public func set(_ value: Data, forKey defaultName: String){
         self.memoryCache.setValue(value, defaultName)
@@ -205,6 +217,12 @@ final public class SwiftLvDB: NSObject {
     public func set(_ value:[String:NSCoding],forKey defaultName: String){
         self.memoryCache.setValue(value, defaultName)
         self.diskCache.set(value, forKey: defaultName)
+    }
+    
+    //codeable
+    public func set<T:Codable>(_ value:T,forKey defaultName: String) throws{
+        self.memoryCache.setValue(value, defaultName)
+        try self.diskCache.set(value, forKey: defaultName)
     }
 }
 

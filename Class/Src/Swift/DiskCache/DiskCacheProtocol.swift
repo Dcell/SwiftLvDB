@@ -13,8 +13,8 @@ protocol DiskCacheProtocol:NSObjectProtocol{
     /*!
      -objectForKey: will search the receiver's search list for a default with the key 'defaultName' and return it. If another process has changed defaults in the search list, NSUserDefaults will automatically update to the latest values. If the key in question has been marked as ubiquitous via a Defaults Configuration File, the latest value may not be immediately available, and the registered value will be returned instead.
      */
+    func object<T>(_ type:T.Type,forKey defaultName: String) -> T? where T : Decodable
     func object(forKey defaultName: String) -> Any?
-    
     
     /// -removeObjectForKey: is equivalent to -[... setObject:nil forKey:defaultName]
     func removeObject(forKey defaultName: String)
@@ -87,4 +87,7 @@ protocol DiskCacheProtocol:NSObjectProtocol{
 
     /// -setDictionary:forKey: is equivalent to -setObject:forKey: except that the value is converted from a NSString
     func set(_ value:[String:NSCoding],forKey defaultName: String)
+    
+    /// -set:forKey: is equivalent to -setObject:forKey: except that the value is converted from a Codable
+    func set<T:Codable>(_ value:T,forKey defaultName: String) throws
 }
