@@ -14,7 +14,7 @@
 pod 'SwiftLvDB'
 ```
 ## Usage
-###Create SwiftLvDB Object
+###  Create SwiftLvDB Object
 ```
 let sldb = SwiftLvDB.sharedInstance
 or
@@ -22,21 +22,21 @@ let sldb = SwiftLvDB(subName: "sldb")
 ```
 > If you use the same `init:subName` db in multiple threads, make sure that the `SwiftLvDB` instance is unique; invoke `close()` before `init:subName`
 
-###Set value for key
+### Set value for key
 
 ```
 let testValue:String = "hello"
 let testKey = "testSaveString"
 SwiftLvDB.sharedInstance.set(testValue, forKey: testKey)
 ```
-###Get value for key
+### Get value for key
 
 ```
 let testKey = "testSaveString"
 let value = SwiftLvDB.sharedInstance.string(forKey: testKey)
 ```
 
-###Save struct, ArrayList or HashMap,Suggest use `Codeable` protocol
+### Save struct, ArrayList or HashMap,Suggest use `Codeable` protocol
 
 ```
 struct TestStruct:Codable,Equatable{
@@ -71,4 +71,5 @@ sldb.codeableObject([String:Int].self, forKey: testKey)
 ```
 -------
 
-## MIT
+## License
+SwiftLvDB is released under the MIT license. See LICENSE for details.
