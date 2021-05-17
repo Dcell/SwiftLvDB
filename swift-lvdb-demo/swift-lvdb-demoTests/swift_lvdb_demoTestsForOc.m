@@ -2,8 +2,8 @@
 //  swift_lvdb_demoTestsForOc.m
 //  swift-lvdb-demoTests
 //
-//  Created by mac_25648_newMini on 2020/7/15.
-//  Copyright © 2020 mac_25648_newMini. All rights reserved.
+//  Created by Dcell on 2020/7/15.
+//  Copyright © 2020 Dcell. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

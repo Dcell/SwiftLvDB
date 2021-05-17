@@ -186,7 +186,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1150;
-				ORGANIZATIONNAME = mac_25648_newMini;
+				ORGANIZATIONNAME = dcell;
 				TargetAttributes = {
 					9BC1668024BE924B00F4DBA3 = {
 						CreatedOnToolsVersion = 11.5;

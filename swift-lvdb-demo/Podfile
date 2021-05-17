@@ -9,8 +9,4 @@ target "swift-lvdb-demoTests" do
     pod 'SwiftLvDB', :path => ".."
 end
 
-#target "IDHCacheDemoTestsForOc" do
-#    pod 'IDHCache', :path => ".."
-#    pod 'YYCache'
-#end
 
